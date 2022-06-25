@@ -85,3 +85,10 @@ function findPaths( mat, path,  i, j) { //Función que recorre el laberinto. Se 
 
     path.pop(); //Backtracking: Se elimina la coordenada actual del path si no se cumple ninguna de las condiciones.
 }
+let data = syncReadFile('./input.txt'); //Se lee el archivo y se convierte en matriz su contenido(se debe darle el nombre correcto del archivo)
+let Mat = splitrow(data,0); //Se convierte la matriz de strings a números y se separan por filas.
+//console.log(Mat) //Muestra el laberinto
+
+let init_x_y = initxy(Mat,0); //Coordenada iniciales
+let path = []; //Lista vacia que corresponde al camino que se puede recorrer en el laberinto
+findPaths(Mat, path, init_x_y[0][1], init_x_y[0][0]); //
