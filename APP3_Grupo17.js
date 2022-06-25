@@ -43,3 +43,45 @@ function initxy(array, y){ //Función que busca las coordenas iniciales del labe
   }
   return init_path; //Se retornan las coordenadas iniciales.
 }
+
+function findPaths( mat, path,  i, j) { //Función que recorre el laberinto. Se avanza si hay un 0, si hay un 1 no se puede avanzar. Se imprimen los posibles caminos.
+    if (mat == null || mat.length == 0) { //Caso base, matriz nula o sin datos.
+        return;
+    }
+
+    let M = mat.length; //Cantidad filas que posee la matriz.
+    let N = mat[0].length; //Cantidad columnas que posee la matriz.
+
+    //Si se llega a la última columna de la matriz, y el valor observado es igual a cero, entonces se agrega la última coordenada al path y luego se termina la función, mostrando por pantalla todos los posibles caminos.
+    if (j==N-1 && mat[i][j]==0) {
+        path.push([j,i]);
+        console.log("Posible camino:\n");
+        console.log(path, "\n");
+        path.pop();
+        return;
+    }
+
+    path.push([j,i]); //Se agrega la coordenada actual al path.
+
+    //Desplazamiento hacia la derecha.
+    if ((i >= 0 && i < M && j + 1 >= 0 && j + 1 < N && mat[i][j+1] == 0 && findxy(path,i, j+1)==null)) {
+        findPaths(mat, path, i, j + 1);
+    }
+
+    //Desplazamiento hacia abajo.
+    if ((i + 1 >= 0 && i + 1 < M && j >= 0 && j < N && mat[i+1][j] == 0 && findxy(path,i+1, j)==null)) {
+        findPaths(mat, path, i + 1, j);
+    }
+
+    //Desplazamiento hacia arriba.
+    if ((i - 1 >= 0 && j >= 0 && j < N && mat[i-1][j] == 0 && findxy(path,i-1, j)==null)){
+        findPaths(mat, path, i - 1, j);
+    }
+
+    //Desplazamiento hacia la izquierda.
+    if ((i >= 0 && i < M && j -1 >= 0 && mat[i][j+1] == 0 && findxy(path,i, j-1)==null)) {
+        findPaths(mat, path, i, j - 1);
+    }
+
+    path.pop(); //Backtracking: Se elimina la coordenada actual del path si no se cumple ninguna de las condiciones.
+}
